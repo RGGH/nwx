@@ -33,8 +33,10 @@ fn main() {
 
 fn get_mac(iface_path: &Path) -> String {
     println!("Chosen interface path: {:?}", iface_path);
+    // read the contents of the 'device'
     let mut f = fs::File::open(iface_path).expect("Failed");
     let mut macaddr = String::new();
+    // read MAC and print to screen
     f.read_to_string(&mut macaddr).expect("Error");
     println!("MAC address: {}", &macaddr.to_string().green());
     macaddr
