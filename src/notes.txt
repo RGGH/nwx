@@ -1,0 +1,7 @@
+to_os_string
+filter_map
+read_line
+read_dir
+stdin().read_line(&mut input).expect("Failed to read line");
+
+Using to_os_string() and the subsequent conversions helps you work with filenames in a consistent and platform-agnostic way while allowing you to collect them into a Vec<String> for further processing.

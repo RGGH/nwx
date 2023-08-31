@@ -23,13 +23,19 @@ fn main() {
     // !! important - remove newline character from input
     //let iface_choice = input;//.trim();
     let iface_choice = input.trim();
+
     // Construct the path based on the chosen interface
     let iface_path = net.join(iface_choice).join("address");
 
-    // Now you can use `iface_path` to further work with the chosen interface's path
+    let macaddr = get_mac(&iface_path);
+    let _out = std::fs::write("mac_info.txt", macaddr);
+}
+
+fn get_mac(iface_path: &Path) -> String {
     println!("Chosen interface path: {:?}", iface_path);
     let mut f = fs::File::open(iface_path).expect("Failed");
     let mut macaddr = String::new();
     f.read_to_string(&mut macaddr).expect("Error");
-    println!("MAC address: {}", macaddr.to_string().green());
+    println!("MAC address: {}", &macaddr.to_string().green());
+    macaddr
 }
