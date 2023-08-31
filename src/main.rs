@@ -26,9 +26,10 @@ fn main() {
 
     // Construct the path based on the chosen interface in "/sys/class/net"
     let iface_path = net.join(iface_choice).join("address");
-    let macaddr = get_mac(&iface_path);
-    // write mac address to text file
-    let _out = std::fs::write("mac_info.txt", macaddr);
+
+    // get the MAC address of chosen interface, print to screen and write to txt file
+    get_mac(&iface_path);
+    
 }
 
 fn get_mac(iface_path: &Path) -> String {
@@ -39,5 +40,7 @@ fn get_mac(iface_path: &Path) -> String {
     // read MAC and print to screen
     f.read_to_string(&mut macaddr).expect("Error");
     println!("MAC address: {}", &macaddr.to_string().green());
+
+    let _out = std::fs::write("mac_info.txt", &macaddr);
     macaddr
 }
