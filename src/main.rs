@@ -8,6 +8,7 @@ fn main() {
     let net = Path::new("/sys/class/net");
     let entry = fs::read_dir(net).expect("Error");
 
+    // build vector of intrerface names
     let ifaces = entry
         .filter_map(|p| p.ok())
         .map(|p| p.path().file_name().expect("Error").to_os_string())
@@ -15,19 +16,18 @@ fn main() {
         .collect::<Vec<String>>();
 
     println!("These are the available interfaces: {:?}", ifaces);
-    println!("\nChoose an interface: ");
-    // Create a mutable String and store the user's input
+    println!("\nChoose an interface to view MAC address :\n");
     let mut input = String::new();
+    // Store the user's input
     stdin().read_line(&mut input).expect("Failed to read line");
 
     // !! important - remove newline character from input
-    //let iface_choice = input;//.trim();
     let iface_choice = input.trim();
 
-    // Construct the path based on the chosen interface
+    // Construct the path based on the chosen interface in "/sys/class/net"
     let iface_path = net.join(iface_choice).join("address");
-
     let macaddr = get_mac(&iface_path);
+    // write mac address to text file
     let _out = std::fs::write("mac_info.txt", macaddr);
 }
 
